@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  backend:
+    image: backend-dev
+    build:
+      context: ./backend
+    command: >
+      sh -c "python manage.py makemigrations &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend/app:/backend/app
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+    ports:
+      - "8000:8000"
+    restart: always
+
+  frontend:
+    image: frontend-dev
+    build:
+      context: ./nginx/frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
