@@ -98,26 +98,9 @@ def get_similar(text="", n=2):
             n_results= n,
             
         )
-        # ids = [int(i) for i in result["ids"][0]]
-        # result = get_docs(ids) # Getting the items
-
     else:
         result= Response({
             "message": "Enter a prompt"
         }, status= status.HTTP_400_BAD_REQUEST)
     
     return result
-
-# def get_docs(ids):
-#     try:
-#         # Query the COLLECTION to get documents with the given IDs
-#         documents = COLLECTION.query(
-#             where={"id": {"$in": ids}},
-#             include=["documents"]
-#         )
-        
-#         return documents["documents"]
-#     except Exception as e:
-#         return {
-#             "message": str(e)
-#         }

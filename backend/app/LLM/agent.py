@@ -15,7 +15,7 @@ class Agent:
         llm = ChatOpenAI(
             temperature=0.2,
             streaming=True,
-            api_key="sk-proj-6soye3S7Rx9LcKyeop1HT3BlbkFJBYnHI0jVy6rrsbpZrEJC",
+            api_key=os.getenv("OPENAI_API_KEY"),
             callbacks=[StreamingStdOutCallbackHandler()],
             model="gpt-3.5-turbo" # try gpt-4 if available
         )

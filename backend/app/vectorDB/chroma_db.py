@@ -60,18 +60,5 @@ class ChromaDB(metaclass=SingletonMeta):
     
     # Getting the embedding function
     def __get_embedding_function(self):
-        model= "sentence-transformers/all-MiniLM-L6-v2"
-        # embedding= self.__get_embedding_service(model)
         embedding= embedding_functions.DefaultEmbeddingFunction()
-        return embedding
-
-
-    # Getting other services embedding function
-    def __get_embedding_service(self, model_name):
-        
-        embedding= embedding_functions.HuggingFaceEmbeddingFunction(
-            api_key="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",
-            model_name=model_name
-        )
-
         return embedding
