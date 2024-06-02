@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+import chromadb
+from chromadb.config import Settings
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,7 +51,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    "core"
+    'core',
+    'vectorDB',
+    'LLM',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +171,20 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Chroma Client Settings
+CHROMA_SETTINGS = Settings(
+    allow_reset=True,
+    anonymized_telemetry=False,
+    chroma_client_auth_credentials= os.environ.get("CHROMA_SERVER_AUTHN_CREDENTIALS"),
+    chroma_client_auth_provider= os.environ.get("CHROMA_CLIENT_AUTHN_PROVIDER"),
+)
+
+CHROMA_CLIENT = chromadb.HttpClient(
+    host= os.environ.get('CHROMA_HOST_NAME'),  # Replace with 'localhost' for development
+    port= os.environ.get('CHROMA_HOST_PORT'),
+    headers= {
+        os.environ.get("CHROMA_AUTH_TOKEN_TRANSPORT_HEADER"):os.environ.get("CHROMA_SERVER_AUTHN_CREDENTIALS"),
+    },
+    settings= CHROMA_SETTINGS
+)
