@@ -7,12 +7,13 @@ django-cors-headers
 django-rest-swagger
 drf_yasg
 django-extensions
-# pandas
-# python-dateutil
-# chromadb
-# langchain
-# langchainhub
-# openai
-# tiktoken
-# langchain-openai
-# markdown
+pandas
+python-dateutil
+chromadb
+langchain
+langchainhub
+openai
+tiktoken
+langchain-openai
+markdown
+langchain_community
