@@ -7,17 +7,17 @@ import os
 import markdown
 
 
-class Agent:
+class AgentGPT35:
     def __init__(self, tools):
         self.tools = tools
         
         # The Brain
         llm = ChatOpenAI(
-            temperature=0.2,
+            temperature=0,
             streaming=True,
             api_key=os.getenv("OPENAI_API_KEY"),
             callbacks=[StreamingStdOutCallbackHandler()],
-            model="gpt-3.5-turbo" # try gpt-4 if available
+            model="gpt-3.5-turbo"
         )
 
         # The Intent

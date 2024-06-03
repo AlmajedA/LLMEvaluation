@@ -16,4 +16,6 @@ openai
 tiktoken
 langchain-openai
 markdown
+replicate
 langchain_community
+transformers
