@@ -16,7 +16,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+      - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN}
       - CHROMA_HOST_PORT=${CHROMA_HOST_PORT}
       - CHROMA_HOST_NAME=${CHROMA_HOST_NAME}
       - CHROMA_SERVER_AUTHN_CREDENTIALS=${CHROMA_SERVER_AUTHN_CREDENTIALS}
@@ -30,6 +30,8 @@ services:
     restart: always
     depends_on:
       - chromadb
+    networks:
+      - internal-net
 
   frontend:
     image: frontend-dev
@@ -39,6 +41,8 @@ services:
       - "4200:4200"
     depends_on:
       - backend
+    networks:
+      - internal-net
     
   chromadb:
     image: ghcr.io/chroma-core/chroma:latest
@@ -53,7 +57,12 @@ services:
       - CHROMA_AUTH_TOKEN_TRANSPORT_HEADER=${CHROMA_AUTH_TOKEN_TRANSPORT_HEADER}
     ports:
       - '${CHROMA_HOST_PORT}:${CHROMA_HOST_PORT}'
+    networks:
+      - internal-net
 
 volumes:
   chroma-data:
     driver: local
+
+networks:
+  internal-net:

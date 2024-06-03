@@ -1,0 +1,74 @@
+.chat-dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+
+  &.not-implemented {
+    opacity: 0.5; // Make it look disabled
+    pointer-events: none; // Disable all interactions
+  }
+
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+
+    .chat-message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .user-message {
+      background-color: #e1f5fe;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background-color: #fff3e0;
+      align-self: flex-start;
+    }
+  }
+
+  .chat-input {
+    display: flex;
+    align-items: center;
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+
+      &:disabled {
+        background-color: #f0f0f0; // Change background when disabled
+        cursor: not-allowed;
+      }
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+
+      &:disabled {
+        background-color: #ccc; // Change color when disabled
+        cursor: not-allowed;
+      }
+    }
+  }
+}
