@@ -18,4 +18,5 @@ langchain-openai
 markdown
 replicate
 langchain_community
-transformers
+scikit-learn
+numpy

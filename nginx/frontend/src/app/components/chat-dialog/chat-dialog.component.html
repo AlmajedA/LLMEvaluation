@@ -1,0 +1,15 @@
+<div class="chat-dialog-container" [class.not-implemented]="notImplemented">
+  <h2>{{ title }}</h2> <!-- Display the title here -->
+  <div class="chat-window">
+    <div *ngFor="let message of messages" class="chat-message"
+      [ngClass]="{'user-message': message.type === 'user', 'bot-message': message.type === 'bot'}">
+      <div *ngIf="message.type === 'user'">{{ message.content }}</div>
+      <div *ngIf="message.type === 'bot'" [innerHTML]="message.content"></div>
+    </div>
+  </div>
+  <div class="chat-input">
+    <input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Type your message here..."
+      [disabled]="notImplemented" />
+    <button (click)="sendMessage()" [disabled]="notImplemented">Send</button>
+  </div>
+</div>

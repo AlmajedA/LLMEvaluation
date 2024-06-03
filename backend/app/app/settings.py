@@ -51,13 +51,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    'core',
     'vectorDB',
     'LLM',
     'django_extensions',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -75,7 +75,7 @@ CORS_ALLOWED_ORIGINS = []
 CORS_ALLOWED_ORIGINS.extend(
     filter(
         None,
-        os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+        os.environ.get('CORS_ALLOWED_ORIGIN', '').split(',')
     )
 )
 

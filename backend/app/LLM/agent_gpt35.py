@@ -45,10 +45,6 @@ class AgentGPT35:
             result = self.agent_executor.invoke({"input": query})['output']
             result = markdown.markdown(result)
             
-            # Remove surrounding <p> tags if present
-            if result.startswith('<p>'):
-                result = result[3:-4]
-            
             return result
         
         except Exception as e:

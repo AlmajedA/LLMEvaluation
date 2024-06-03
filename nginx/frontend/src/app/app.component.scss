@@ -1,0 +1,37 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-dialogs-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; // Space them evenly vertically
+  align-items: center;
+  height: 100vh; // Full height of the viewport
+  width: 100vw; // Full width of the viewport
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+app-chat-dialog {
+  flex: 1 1 auto; // Ensure the dialogs take up equal space
+  width: calc(25% - 40px); // Ensure the dialogs don't exceed the container size
+  max-width: calc(25% - 40px); // Ensure the dialogs don't exceed the container size
+  box-sizing: border-box; // Include padding and border in the element's total width and height
+}
+
+@media (max-width: 1200px) {
+  app-chat-dialog {
+    width: calc(50% - 40px); // Adjust for medium screens
+    max-width: calc(50% - 40px);
+  }
+}
+
+@media (max-width: 768px) {
+  app-chat-dialog {
+    width: calc(100% - 40px); // Adjust for small screens
+    max-width: calc(100% - 40px);
+  }
+}
