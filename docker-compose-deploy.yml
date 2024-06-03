@@ -1,29 +1,64 @@
 version: "4"
 
 services:
-
   frontend:
-      image: nginx
-      container_name: LLMfrontend
-      build:
-        context: ./nginx
-      ports:
-        - "80:80"
-      restart: always
-      
-      depends_on:
-        - backend
-      
+    image: nginx
+    container_name: frontend
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - backend
+    networks:
+        - frontend
+    links:
+        - backend:backend
 
   backend:
     image: backend
-    container_name: LLMbackend
+    container_name: backend
     build:
       context: ./backend
     environment:
-        - SECRET_KEY=${}
-        - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-        - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
-        - HUGGING_FACE_API_KEY=${HUGGING_FACE_API_KEY}
-        - DEBUG=1
-    restart: always
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN}
+      - DEPLOY_URL=${DEPLOY_URL}
+      - CHROMA_HOST_PORT=${CHROMA_HOST_PORT}
+      - CHROMA_HOST_NAME=${CHROMA_HOST_NAME}
+      - CHROMA_SERVER_AUTHN_CREDENTIALS=${CHROMA_SERVER_AUTHN_CREDENTIALS}
+      - CHROMA_CLIENT_AUTHN_PROVIDER=${CHROMA_CLIENT_AUTHN_PROVIDER}
+      - CHROMA_AUTH_TOKEN_TRANSPORT_HEADER=${CHROMA_AUTH_TOKEN_TRANSPORT_HEADER}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - HUGGING_FACE_API_KEY=${HUGGING_FACE_API_KEY}
+      - REPLICATE_API_TOKEN=${REPLICATE_API_TOKEN}
+    depends_on:
+      - chromadb
+    networks:
+      - frontend
+      - backend
+
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    volumes:
+      - chroma-data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+      - CHROMA_HOST_PORT=${CHROMA_HOST_PORT}
+      - CHROMA_SERVER_AUTHN_CREDENTIALS=${CHROMA_SERVER_AUTHN_CREDENTIALS}
+      - CHROMA_SERVER_AUTHN_PROVIDER=${CHROMA_SERVER_AUTHN_PROVIDER}
+      - CHROMA_AUTH_TOKEN_TRANSPORT_HEADER=${CHROMA_AUTH_TOKEN_TRANSPORT_HEADER}
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  chroma-data:
+    driver: local

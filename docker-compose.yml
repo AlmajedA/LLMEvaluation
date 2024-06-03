@@ -1,6 +1,17 @@
 version: '3.9'
 
 services:
+  frontend:
+      image: frontend-dev
+      build:
+        context: ./nginx/frontend
+      ports:
+        - "4200:4200"
+      depends_on:
+        - backend
+      networks:
+        - internal-net
+        
   backend:
     image: backend-dev
     build:
@@ -33,16 +44,7 @@ services:
     networks:
       - internal-net
 
-  frontend:
-    image: frontend-dev
-    build:
-      context: ./nginx/frontend
-    ports:
-      - "4200:4200"
-    depends_on:
-      - backend
-    networks:
-      - internal-net
+  
     
   chromadb:
     image: ghcr.io/chroma-core/chroma:latest

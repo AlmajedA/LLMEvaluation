@@ -18,6 +18,11 @@ RUN /py/bin/pip install -r /requirements.txt
 COPY ./app /app
 COPY ./scripts /scripts
 
+# Ensure the script has Unix line endings and executable permissions
+RUN apt-get install -y dos2unix && \
+    dos2unix /scripts/run.sh && \
+    chmod +x /scripts/run.sh
+
 RUN adduser --disabled-password --no-create-home user && \
     mkdir -p /vol/web/static && \
     chown -R user:user /vol && \
@@ -27,8 +32,5 @@ RUN adduser --disabled-password --no-create-home user && \
 ENV PATH="/scripts:/py/bin:$PATH"
 
 EXPOSE 8000
-
-# TODO: Uncomment this for deployment
-# USER user
 
 CMD ["run.sh"]
