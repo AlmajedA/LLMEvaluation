@@ -20,7 +20,7 @@ from .agent_gpt4 import AgentGPT4
 from .agent_llama import AgentLlama
 from .agent_falcon import AgentFalcon
 
-base_url = "http://localhost:8000" if os.environ.get('DEBUG') == "1" else os.environ.get('DEPLOY_URL')
+base_url = os.environ.get('DEPLOY_URL', "http://localhost:8000")
 
 @tool
 def test_connection() -> str:
