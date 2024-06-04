@@ -6,6 +6,10 @@
       <div *ngIf="message.type === 'user'">{{ message.content }}</div>
       <div *ngIf="message.type === 'bot'" [innerHTML]="message.content"></div>
     </div>
+    <div *ngIf="isLoading" class="chat-message bot-message">
+      Bot is typing<span *ngIf="dotsCount === 1">.</span><span *ngIf="dotsCount === 2">..</span><span
+        *ngIf="dotsCount === 3">...</span>
+    </div>
   </div>
   <div class="chat-input">
     <input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Type your message here..."

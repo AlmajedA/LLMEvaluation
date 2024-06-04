@@ -18,6 +18,9 @@ export class ChatDialogComponent {
 
   messages: { content: string | SafeHtml; type: 'user' | 'bot' }[] = [];
   userInput: string = '';
+  isLoading: boolean = false;
+  dotsCount: number = 0;
+  loadingInterval: any;
 
   constructor(private chatbotService: ChatbotService, private sanitizer: DomSanitizer) {} // Inject DomSanitizer
 
@@ -30,7 +33,10 @@ export class ChatDialogComponent {
       const userMessage = this.userInput;
       this.userInput = '';
 
+      this.startLoading();
+
       this.chatbotService.getResponse(userMessage, this.version).subscribe((response) => {
+        this.stopLoading();
         const sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(response.response);
         const responseWithScore = this.sanitizer.bypassSecurityTrustHtml(
           `${response.response} <p><strong>F1 Score:</strong> ${response.f1_score}</p>`
@@ -38,5 +44,18 @@ export class ChatDialogComponent {
         this.messages.push({ content: responseWithScore, type: 'bot' });
       });
     }
+  }
+
+  startLoading(): void {
+    this.isLoading = true;
+    this.dotsCount = 1;
+    this.loadingInterval = setInterval(() => {
+      this.dotsCount = (this.dotsCount % 3) + 1;
+    }, 500);
+  }
+
+  stopLoading(): void {
+    this.isLoading = false;
+    clearInterval(this.loadingInterval);
   }
 }
